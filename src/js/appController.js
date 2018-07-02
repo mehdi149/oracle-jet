@@ -25,6 +25,9 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
       self.appName = ko.observable("Test App Name");
       // User Info used in Global Navigation area
       self.userLogin = ko.observable("bahra.mehdi1@gmail.com");
+         /* toggle button variables */
+         self.stackValue = ko.observable('off');
+         self.orientationValue = ko.observable('vertical');
 
       var columnValueFrequency = {};
       var columnTypeMetadata = {};
@@ -50,11 +53,22 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
                 if (!columnTypeMetadata[column_name]){
                    // check if the column value is a number or Text , ignore null values
                    
-                    if(isNaN(parseFloat(column_value))) columnTypeMetadata[column_name] = 'Text';
-                    else columnTypeMetadata[column_name] = 'Number';
+                    if(isNaN(parseFloat(column_value))) {
+                      columnTypeMetadata[column_name] = 'Text';
+                      entry[column_name] = column_value;
+                    }
+                    else {
+                      columnTypeMetadata[column_name] = 'Number';
+                      
+                    }
+                    
                    
               
                 }
+                if(columnTypeMetadata[column_name] == 'Text')
+                entry[column_name] = column_value;
+                else
+                entry[column_name] = parseFloat(column_value);
                
                 // count frequencies
                 if (!columnValueFrequency[column_name]) columnValueFrequency[column_name] = {};
@@ -103,26 +117,39 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
      *        region2  entries
      */
       let plots_data = {}
+       let value_columns = Object.keys(columnTypeMetadata).filter(column => columnTypeMetadata[column] == 'Number')
       let entriesGroupedByColumn = {}
       series_groups.forEach(column1 => {
          entriesGroupedByColumn[column1] = {};
          plots_data[column1] = [];
         let entriesGrouped1  = _.groupBy(entries, column1);
+   
         Object.keys(entriesGrouped1).forEach(column_value => {
-          plots_data[column1].push({name : column_value , items : entriesGrouped1[column_value]});
+          let surface_areas = []
+          entriesGrouped1[column_value].forEach(entry => surface_areas.push(entry[value_columns[0]]));
+          plots_data[column1].push({name : column_value , items : surface_areas});
         })
        
       })
 
       console.log(plots_data);
 
+   
 
+      console.log(value_columns);
+
+      
+
+      self.barSeriesValue = ko.observableArray(plots_data[series_groups[2]]);
+
+
+  
 
 
   
       /**
        * Extract the possible plots by series , groups and numerical value
-       */
+       
       // group entry by categorical values;
       // split series by groups
       var series = {}
@@ -144,13 +171,13 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
 
 
 
-       })
+       })*/
 
 
       console.log(columnTypeMetadata);
       console.log(IsColumnCategorical);
       console.log(series_groups);
-      console.log(series);
+
       })
       console.log(columnValueFrequency);
       console.log(columnTypeMetadata);
