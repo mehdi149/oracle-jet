@@ -43,7 +43,13 @@ module.exports = function () {
     //   }
     //  ]
     // }
-
+    copyCustomLibsToStaging: {
+        fileList: [
+                  {cwd:'node_modules/underscore/',
+                   src: ['*'],
+                   dest: 'web/js/libs/underscore' }
+                  ]
+    },
 /**
  * # copySrcToStaging
  * This task copies all source files and libraries to staging directory.

@@ -6,10 +6,11 @@
 /*
  * Your application specific code will go here
  */
-define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' ],
+define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
   function(oj, ko , $) {
+    console.log("underscore : ",_);
 
-    
+
      
 
      function ControllerViewModel() {
@@ -36,26 +37,29 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' ],
           let entries = []
           length_data = rows_data.length;
           console.log('rows length:',rows_data.length);
+          let headers = rows_data[0].split('\\t');
+          rows_data.splice(0,1);
           for(let i = 0 ; i < rows_data.length ; i++) {
               let columns = rows_data[i].split('\\t');
               console.log('columns : ',columns);
               let entry = {};
-              columns.forEach( (column , index) => {
-                entry['column'+index] = column;
-                if(column !== 'NULL') {
-                if (!columnTypeMetadata['column'+index]){
+              headers.forEach((column_name , index) => {
+                let column_value = columns[index]
+                entry[column_name] = column_value;
+                if(column_value !== 'NULL') {
+                if (!columnTypeMetadata[column_name]){
                    // check if the column value is a number or Text , ignore null values
                    
-                    if(isNaN(parseFloat(column))) columnTypeMetadata['column'+index] = 'Text';
-                    else columnTypeMetadata['column'+index] = 'Number';
+                    if(isNaN(parseFloat(column_value))) columnTypeMetadata[column_name] = 'Text';
+                    else columnTypeMetadata[column_name] = 'Number';
                    
               
                 }
                
                 // count frequencies
-                if (!columnValueFrequency['column'+index]) columnValueFrequency['column'+index] = {};
-                if( !columnValueFrequency['column'+index][column]) columnValueFrequency['column'+index][column] = 0;
-                columnValueFrequency['column'+index][column]++;
+                if (!columnValueFrequency[column_name]) columnValueFrequency[column_name] = {};
+                if( !columnValueFrequency[column_name][column_value]) columnValueFrequency[column_name][column_value] = 0;
+                columnValueFrequency[column_name][column_value]++;
               }
               });
               entries.push(entry)
@@ -83,17 +87,62 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' ],
 
       });
       console.log("entries : ",entries);
+   
+
+
+    /***
+     * Example
+     *  name : Africa , items : [ surfaceAreaRegion1 , surfaceAreaRegion2 ,SurfaceAreaRegion3 , ...]
+     *         groups :[region1 , region2 , region3 , ...]
+     */
+    /**
+     * Je regroupe ces donnees par continent , ensuite je regroupe ces memes donnes par federation 
+     * Africa
+     *        region1
+     *                 entries
+     *        region2  entries
+     */
+      let plots_data = {}
+      let entriesGroupedByColumn = {}
+      series_groups.forEach(column1 => {
+         entriesGroupedByColumn[column1] = {};
+         plots_data[column1] = [];
+        let entriesGrouped1  = _.groupBy(entries, column1);
+        Object.keys(entriesGrouped1).forEach(column_value => {
+          plots_data[column1].push({name : column_value , items : entriesGrouped1[column_value]});
+        })
+       
+      })
+
+      console.log(plots_data);
+
+
+
+
+  
       /**
        * Extract the possible plots by series , groups and numerical value
        */
-      var groupEntryBySeries= {};
+      // group entry by categorical values;
+      // split series by groups
+      var series = {}
        series_groups.forEach(column => {
         
-         groupEntryByColumn [column] = {};
+         series [column] = {};
          Object.keys(columnValueFrequency[column]).forEach(serie => {
-          groupEntryByColumn[column][serie] = entries.filter(entry => entry[column] === serie);
+          series[column][serie] = {};
+          let filterentries = entries.filter(entry => entry[column] === serie);
+          let other_series_groups = series_groups.filter( serie_group => serie_group !== column)
+          other_series_groups.forEach(columnSerieGroup => {
+
+           series[column][serie][columnSerieGroup] = {};
+           Object.keys(columnValueFrequency[columnSerieGroup]).forEach(columnSerieGroupValue => {
+             series[column][serie][columnSerieGroup][columnSerieGroupValue] = entries.filter(entry => entry[columnSerieGroup] === columnSerieGroupValue);
+            })
+          })
          })
-         Object.keys(columnValueFrequency)
+
+
 
        })
 
@@ -101,7 +150,7 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' ],
       console.log(columnTypeMetadata);
       console.log(IsColumnCategorical);
       console.log(series_groups);
-      console.log(groupEntryByColumn);
+      console.log(series);
       })
       console.log(columnValueFrequency);
       console.log(columnTypeMetadata);
@@ -114,11 +163,11 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' ],
       {name : "Series 3", items : [{x:17, y:36}, {x:32, y:52}, {x:26, y:28}]},
       {name : "Series 4", items : [{x:38, y:22}, {x:43, y:43}, {x:58, y:36}]}];
 
-var scatterGroups = ["Group A", "Group B", "Group C"];
+
 
 
 this.scatterSeriesValue = ko.observableArray(scatterSeries);
-this.scatterGroupsValue = ko.observableArray(scatterGroups);
+
 
 
 
