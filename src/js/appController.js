@@ -6,15 +6,24 @@
 /*
  * Your application specific code will go here
  */
-define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
-  function(oj, ko , $) {
-    console.log("underscore : ",_);
+define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore' ,'./dataParser'],
+  function(oj, ko , $ ,ojk,underscore ,dataParser) {
 
 
+console.log("data parser : ",dataParser);
      
 
      function ControllerViewModel() {
        var self = this;
+       self.data = "";
+
+       self.processData = function(){
+         /**
+          * Process data from imput 
+          */
+        let entries = dataParser.parseCSV(self.data);
+          console.log("entries : ",entries);
+       }
 
       // Media queries for repsonsive layouts
       var smQuery = oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
@@ -147,8 +156,8 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
 
 
   
-      /**
-       * Extract the possible plots by series , groups and numerical value
+      /*
+       * Extract the possible plots by series , groups and numerical value*/
        
       // group entry by categorical values;
       // split series by groups
@@ -171,12 +180,14 @@ define(['ojs/ojcore', 'knockout', 'jquery','ojs/ojknockout' , 'underscore'],
 
 
 
-       })*/
+       })
 
 
       console.log(columnTypeMetadata);
       console.log(IsColumnCategorical);
       console.log(series_groups);
+      console.log(series);
+    
 
       })
       console.log(columnValueFrequency);

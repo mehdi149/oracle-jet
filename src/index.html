@@ -50,31 +50,12 @@
          ** and the CSS documentation under Support/API Docs/Non-Component Styling
          ** on the JET website for more information on how to use this pattern.
       -->
-      <header role="banner" class="oj-web-applayout-header">
-        <div class="oj-web-applayout-max-width oj-flex-bar oj-sm-align-items-center">
-          <div class="oj-flex-bar-middle oj-sm-align-items-baseline">
-            <span role="img" class="oj-icon demo-oracle-icon" title="Oracle Logo" alt="Oracle Logo"></span>
-            <h1 class="oj-sm-only-hide oj-web-applayout-header-title" title="Application Name"><oj-bind-text value="[[appName]]"></oj-bind-text></h1>
-          </div>
-          <div class="oj-flex-bar-end">
-            <!-- Responsive Toolbar -->
-            <oj-toolbar>
-              <oj-menu-button id="userMenu" display="[[smScreen() ? 'icons' : 'all']]" chroming="half">
-                <span><oj-bind-text value="[[userLogin]]"></oj-bind-text></span>
-                <span slot="endIcon" :class="[[{'oj-icon demo-appheader-avatar': smScreen(), 'oj-component-icon oj-button-menu-dropdown-icon': !smScreen()}]]"></span>
-                <oj-menu id="menu1" slot="menu" style="display:none">
-                  <oj-option id="pref" value="pref">Preferences</oj-option>
-                  <oj-option id="help" value="help">Help</oj-option>
-                  <oj-option id="about" value="about">About</oj-option>
-                  <oj-option id="out" value="out">Sign Out</oj-option>
-                </oj-menu>
-              </oj-menu-button>
-            </oj-toolbar>
-          </div>
-        </div>
-      </header>
+
       <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
 
+        <h4> DATA :</h4>
+       <textarea rows="20" style="width:500px;height: auto" data-bind = "value : data"> </textarea>
+       <button type="button" data-bind="click : processData"> process </button>
         <oj-chart id="barChart"
         type="bar" 
         orientation="[[orientationValue]]"
@@ -84,21 +65,8 @@
         animation-on-data-change="auto"
         hover-behavior="dim"
        style="max-width:800px;width:100%;height:450px;">
-        </oj-chart>
-
-
-
-          <div id='chart-container'>
-              <oj-chart 
-                  type="scatter" 
-                  selection-mode="multiple"
-                  series="[[scatterSeriesValue]]"
-                  animation-on-display="auto"
-                  hover-behavior="dim"
-                  style="max-width:500px;width:100%;height:350px;">
-              </oj-chart>
-          </div>
-
+      </oj-chart>
+      
 
 
       </div>
