@@ -16,11 +16,17 @@ console.log("data parser : ",dataParser);
      function ControllerViewModel() {
       var dataEntries;
       var self = this;
+      // csv data to plot 
        self.data = "";
+       // column for groups/series
        self.columnsSerieGroup =  ko.observableArray([]);
+       // column value to show 
        self.columnsValue = ko.observableArray([]);
+       // selected group column by user
        self.selectedGroupSerieColumn = ko.observable("");
+        // selected value  column by user
        self.selectedValueColumn = ko.observable("");
+       // charts type  
        self.chartOptions = ko.observable(["barChart","scatterChart"]);
        self.selectedChart = ko.observable("barChart");
 
