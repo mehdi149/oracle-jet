@@ -38,6 +38,19 @@
         "cdnPath": "jquery/jquery-3.3.1.min"
       }
     },
+    "underscore": {
+     
+      "cwd": "node_modules/underscore",
+      "debug": {
+        "src": "underscore.js",
+        "path": "libs/underscore/underscore.min.js"
+  
+      },
+      "release": {
+        "src": "underscore.js",
+        "path": "libs/underscore/underscore.min.js"
+      }
+    },
 
     "jqueryui-amd": {
       "cdn": "3rdparty",
