@@ -153,32 +153,12 @@ console.log("data parser : ",dataParser);
       // Media queries for repsonsive layouts
       var smQuery = oj.ResponsiveUtils.getFrameworkQuery(oj.ResponsiveUtils.FRAMEWORK_QUERY_KEY.SM_ONLY);
       self.smScreen = oj.ResponsiveKnockoutUtils.createMediaQueryObservable(smQuery);
-
-      // Header
-      // Application Name used in Branding Area
-      self.appName = ko.observable("Test App Name");
-      // User Info used in Global Navigation area
-      self.userLogin = ko.observable("bahra.mehdi1@gmail.com");
-         /* toggle button variables */
-         self.stackValue = ko.observable('off');
-         self.orientationValue = ko.observable('vertical');
+      self.stackValue = ko.observable('off');
+      self.orientationValue = ko.observable('vertical');
 
     
 
 
-
-
-      //charts section
-
-      var scatterSeries = [{name : "Series 1", items : [{x:15, y:15}, {x:25, y:43}, {x:25, y:25}]},
-      {name : "Series 2", items : [{x:25, y:15}, {x:55, y:45}, {x:57, y:47}]},
-      {name : "Series 3", items : [{x:17, y:36}, {x:32, y:52}, {x:26, y:28}]},
-      {name : "Series 4", items : [{x:38, y:22}, {x:43, y:43}, {x:58, y:36}]}];
-
-
-
-
-this.scatterSeriesValue = ko.observableArray(scatterSeries);
 
 
 
