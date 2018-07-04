@@ -1,6 +1,6 @@
 # oracle-jet
-#INSTALLATION
+# INSTALLATION
 npm install -g @oracle/ojet-cli
 npm install underscore
-#DEPLOYMENT
+# DEPLOYMENT
 ojet serve
