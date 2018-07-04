@@ -71,6 +71,10 @@ define('dataParser',['jquery','underscore'] ,
             
             
             },
+            groupByColumn : function(entries , columnName){
+                
+                return _.groupBy(entries , columnName );
+            }
         
         }
         return dataParser;

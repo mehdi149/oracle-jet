@@ -54,18 +54,67 @@
       <div role="main" class="oj-web-applayout-max-width oj-web-applayout-content">
 
         <h4> DATA :</h4>
-       <textarea rows="20" style="width:500px;height: auto" data-bind = "value : data"> </textarea>
-       <button type="button" data-bind="click : processData"> process </button>
-        <oj-chart id="barChart"
-        type="bar" 
-        orientation="[[orientationValue]]"
-        stack="[[stackValue]]"
-        series="[[barSeriesValue]]"
-        animation-on-display="auto"
-        animation-on-data-change="auto"
-        hover-behavior="dim"
-       style="max-width:800px;width:100%;height:450px;">
-      </oj-chart>
+       <textarea rows="15" style="width:500px;height: auto" data-bind = "value : data"> </textarea>
+       <button type="button" data-bind="click : processData"> Plot data </button>
+      <div class="panel-suggestion">
+
+          <div class="oj-flex oj-flex-items-pad">
+              <div class="oj-sm-2 oj-flex-item">
+                   <h6> Series/Groups </h6>
+                  <div class="groupColumnSelect"> 
+                      <select data-bind="options: columnsSerieGroup , value : selectedGroupSerieColumn" multiple="true"></select>
+                    </div>
+
+              </div>
+              <div class="oj-sm-2 oj-flex-item" data-bind="ifnot : isScatterChart">
+                  <h6> keys  </h6>
+                  <div class="valueColumnSelect">
+                      <select data-bind="options: columnsValue, value : selectedValueColumn" multiple="true"></select>
+                  </div>
+              </div>
+              <div class="oj-sm-2 oj-flex-item" data-bind="if : isScatterChart">
+                  <h6> keys 1 </h6>
+                  <div class="valueColumnSelect">
+                      <select data-bind="options: columnsValue, value : selectValueX" multiple="true"></select>
+                  </div>
+                  <h6> keys  2 </h6>
+                  <div class="valueColumnSelect">
+                      <select data-bind="options: columnsValue, value : selectValueY" multiple="true"></select>
+                  </div>
+              </div>
+              <div class="oj-sm-2 oj-flex-item">
+                  <h6> chart type</h6>
+                  <select data-bind="options: chartOptions, value : selectedChart" multiple="true"></select>
+              </div>
+           
+            </div>
+    
+
+      </div>
+
+      <div class="barChart" data-bind="ifnot  :isScatterChart">
+          <oj-chart id="barChart"
+          type="bar" 
+          orientation="[[orientationValue]]"
+          stack="[[stackValue]]"
+          series="[[plotData]]"
+          animation-on-display="auto"
+          animation-on-data-change="auto"
+          hover-behavior="dim"
+         style="max-width:800px;width:100%;height:450px;">
+        </oj-chart>
+      </div>
+      <div class="scatterChart" data-bind="if : isScatterChart">
+          <oj-chart 
+          type="scatter" 
+          selection-mode="multiple"
+          series="[[plotData]]"
+          animation-on-display="auto"
+          hover-behavior="dim"
+          style="max-width:500px;width:100%;height:350px;">
+        </oj-chart>
+      </div>
+  
       
 
 
