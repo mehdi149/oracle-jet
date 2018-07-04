@@ -14,12 +14,7 @@ define('dataParser',['jquery','underscore'] ,
         const RATIO_CATEGORICAL = 0.5;
 
 
-        class DataEntries {  
-                constructor(schemas , entries){
-                    self.schemas = schemas;
-                    self.entries = entries;
-                }
-        }
+
          function getTypeColumn(entries , column_name){
             let distinct_values = _.uniq(entries ,function( entry ){return entry[column_name]});
             let isCategorical = ((distinct_values.length/entries.length) < RATIO_CATEGORICAL);
@@ -33,11 +28,6 @@ define('dataParser',['jquery','underscore'] ,
             else return 'Number';
         }
         
-        
-        
-         function groupByColumns(columns){
-        
-        }
         var dataParser = {
             parseCSV : function(data){
                 let rows = data.split(ROW_DELIMITER);
@@ -49,6 +39,7 @@ define('dataParser',['jquery','underscore'] ,
                     let entry = {};
                     let columns = row.split(COLUMN_DELIMITER);
                     header.forEach((column_name,index) => {
+                        if(columns[index] === undefined){ alert("DATA MALFORMED !"); throw "parsing error";}
                         let value = columns[index]
                         if(!schemas[column_name] && value !== 'Null' ){
                           schemas[column_name] = {};
@@ -63,6 +54,7 @@ define('dataParser',['jquery','underscore'] ,
                     });
                     entries.push(entry);
                 });
+                if(entries.length  == 0) {alert("NO ENTRY FOUND !"); throw "parsing error";}
                 header.forEach(column_name => {
                   schemas[column_name].isCategorical = getTypeColumn(entries,column_name);  
                 });
