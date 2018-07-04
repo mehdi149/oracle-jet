@@ -11,7 +11,7 @@ define('dataParser',['jquery','underscore'] ,
         const COLUMN_DELIMITER = '\\t';
 
 
-        const RATIO_CATEGORICAL = 0.75;
+        const RATIO_CATEGORICAL = 0.65;
 
 
 

@@ -1,6 +1,5 @@
 # oracle-jet
-# INSTALLATION
-npm install -g @oracle/ojet-cli;
-npm install underscore
-# DEPLOYMENT
+# Install dependencies
+npm install 
+# Deploy
 ojet serve
